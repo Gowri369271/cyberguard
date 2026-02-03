@@ -12,7 +12,8 @@ export default function Home() {
   const [isSimulating, setIsSimulating] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/system-info")
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    fetch(`${apiUrl}/api/system-info`)
       .then((res) => res.json())
       .then((data) => setSystemInfo(data))
       .catch((err) => console.error("Failed to fetch system info", err));
@@ -26,7 +27,8 @@ export default function Home() {
     setLogs([{ message: `Initializing ${type.toUpperCase()} simulation sequence...`, delay: 0 }]);
 
     try {
-      const res = await fetch(`http://localhost:5000/api/simulate/${type}`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetch(`${apiUrl}/api/simulate/${type}`, {
         method: "POST",
       });
       const data = await res.json();
